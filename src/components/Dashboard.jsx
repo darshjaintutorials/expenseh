@@ -34,12 +34,7 @@ export default function Dashboard({
   return (
     <div className="container">
       <header className="app-header">
-        <div className="app-title">
-          <div style={{ background: 'var(--primary)', color: 'white', padding: '0.5rem', borderRadius: 'var(--radius-sm)' }}>
-            <ArrowUpRight size={24} />
-          </div>
-          <h1>Expense Tracker</h1>
-        </div>
+        <div></div>
         <div className="flex gap-2">
           <button onClick={toggleTheme} className="btn btn-secondary" style={{ padding: '0.5rem' }}>
             {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
