@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LogOut, ArrowUpRight, ArrowDownRight, Edit2, Check, Trash2 } from 'lucide-react';
+import { LogOut, ArrowUpRight, ArrowDownRight, Edit2, Check, Trash2, Sun, Moon } from 'lucide-react';
 import ExpenseForm from './ExpenseForm';
 import Visualizations from './Visualizations';
 
@@ -13,7 +13,9 @@ export default function Dashboard({
   setStartingBalance,
   addTransaction, 
   addCategory,
-  deleteTransaction
+  deleteTransaction,
+  theme,
+  toggleTheme
 }) {
   const [isEditingBalance, setIsEditingBalance] = useState(false);
   const [tempBalance, setTempBalance] = useState(startingBalance);
@@ -38,9 +40,14 @@ export default function Dashboard({
           </div>
           <h1>Expense Tracker</h1>
         </div>
-        <button onClick={onLogout} className="btn btn-secondary">
-          <LogOut size={18} /> Logout
-        </button>
+        <div className="flex gap-2">
+          <button onClick={toggleTheme} className="btn btn-secondary" style={{ padding: '0.5rem' }}>
+            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+          <button onClick={onLogout} className="btn btn-secondary">
+            <LogOut size={18} /> <span className="hidden-mobile">Logout</span>
+          </button>
+        </div>
       </header>
 
       <div className="dashboard-grid mb-6" style={{ gridTemplateColumns: '1fr' }}>
@@ -52,10 +59,10 @@ export default function Dashboard({
             </div>
           </div>
           
-          <div className="text-right">
+          <div className="text-right mt-4" style={{ marginTop: '1rem', alignSelf: 'flex-start' }}>
             <h3 className="text-muted mb-2" style={{ fontSize: '0.875rem' }}>Starting Balance</h3>
             {isEditingBalance ? (
-              <div className="flex gap-2 items-center">
+              <div className="flex gap-2 items-center flex-wrap">
                 <input 
                   type="number" 
                   className="form-input" 
@@ -154,7 +161,7 @@ export default function Dashboard({
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-4 mt-4" style={{ marginTop: '0.5rem', alignSelf: 'flex-end' }}>
                       <div className={`transaction-amount ${t.type === 'expense' ? 'amount-expense' : 'amount-income'}`}>
                         {t.type === 'expense' ? '-' : '+'}₹{t.amount.toFixed(2)}
                       </div>

@@ -18,6 +18,16 @@ function App() {
   const [transactions, setTransactions] = useState([]);
   const [categories, setCategories] = useState(INITIAL_CATEGORIES);
   const [startingBalance, setStartingBalance] = useState(0);
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+  
+  const toggleTheme = () => {
+    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+  };
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -159,6 +169,8 @@ function App() {
       addTransaction={addTransaction}
       addCategory={addCategory}
       deleteTransaction={deleteTransaction}
+      theme={theme}
+      toggleTheme={toggleTheme}
     />
   );
 }
