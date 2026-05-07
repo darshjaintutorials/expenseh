@@ -20,6 +20,7 @@ export default function Dashboard({
   const [isEditingBalance, setIsEditingBalance] = useState(false);
   const [tempBalance, setTempBalance] = useState(startingBalance);
   const [activeTab, setActiveTab] = useState('active'); // 'active' or 'deleted'
+  const [visibleCount, setVisibleCount] = useState(10);
 
   const activeTransactions = transactions.filter(t => !t.is_deleted);
   const deletedTransactions = transactions.filter(t => t.is_deleted);
@@ -105,14 +106,14 @@ export default function Dashboard({
               <div className="flex gap-2">
                 <button 
                   className={`btn flex-1 ${activeTab === 'active' ? 'btn-primary' : 'btn-secondary'}`}
-                  onClick={() => setActiveTab('active')}
+                  onClick={() => { setActiveTab('active'); setVisibleCount(10); }}
                   style={{ padding: '0.5rem', fontSize: '0.875rem' }}
                 >
                   Active
                 </button>
                 <button 
                   className={`btn flex-1 ${activeTab === 'deleted' ? 'btn-danger' : 'btn-secondary'}`}
-                  onClick={() => setActiveTab('deleted')}
+                  onClick={() => { setActiveTab('deleted'); setVisibleCount(10); }}
                   style={{ padding: '0.5rem', fontSize: '0.875rem' }}
                 >
                   Deleted
@@ -126,7 +127,7 @@ export default function Dashboard({
               </p>
             ) : (
               <div className="transaction-list">
-                {displayTransactions.slice(0, 10).map(t => (
+                {displayTransactions.slice(0, visibleCount).map(t => (
                   <div key={t.id} className="transaction-item" style={{ opacity: t.is_deleted ? 0.6 : 1 }}>
                     <div className="flex items-center" style={{ flexGrow: 1 }}>
                       <div className="transaction-icon">
@@ -173,10 +174,16 @@ export default function Dashboard({
                     </div>
                   </div>
                 ))}
-                {displayTransactions.length > 10 && (
-                  <p className="text-center text-muted mt-2" style={{ fontSize: '0.875rem' }}>
-                    Showing 10 most recent.
-                  </p>
+                {displayTransactions.length > visibleCount && (
+                  <div className="text-center mt-4 mb-2">
+                    <button 
+                      onClick={() => setVisibleCount(prev => prev + 10)} 
+                      className="btn btn-secondary w-full"
+                      style={{ fontSize: '0.875rem' }}
+                    >
+                      View More
+                    </button>
+                  </div>
                 )}
               </div>
             )}
