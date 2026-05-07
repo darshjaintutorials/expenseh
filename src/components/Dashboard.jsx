@@ -159,7 +159,7 @@ export default function Dashboard({
                     </div>
                     <div className="flex items-center gap-4 mt-4" style={{ marginTop: '0.5rem', alignSelf: 'flex-end' }}>
                       <div className={`transaction-amount ${t.type === 'expense' ? 'amount-expense' : 'amount-income'}`}>
-                        {t.type === 'expense' ? '-' : '+'}₹{t.amount.toFixed(2)}
+                        {t.type === 'expense' ? '-' : '+'}₹{Number(t.amount).toFixed(2)}
                       </div>
                       {!t.is_deleted && (
                         <button 

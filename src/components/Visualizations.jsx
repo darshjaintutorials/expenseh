@@ -14,7 +14,8 @@ export default function Visualizations({ transactions }) {
   const categoryData = useMemo(() => {
     const expenses = transactions.filter(t => t.type === 'expense');
     const grouped = expenses.reduce((acc, curr) => {
-      acc[curr.category] = (acc[curr.category] || 0) + curr.amount;
+      const amount = Number(curr.amount) || 0;
+      acc[curr.category] = (acc[curr.category] || 0) + amount;
       return acc;
     }, {});
 
@@ -34,10 +35,11 @@ export default function Visualizations({ transactions }) {
         acc[monthYear] = { month: monthYear, income: 0, expense: 0, timestamp: date.getTime() };
       }
       
+      const amount = Number(curr.amount) || 0;
       if (curr.type === 'income') {
-        acc[monthYear].income += curr.amount;
+        acc[monthYear].income += amount;
       } else {
-        acc[monthYear].expense += curr.amount;
+        acc[monthYear].expense += amount;
       }
       
       return acc;
